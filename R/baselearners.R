@@ -10,7 +10,7 @@ setClass("BaseLearner.Config", contains="VIRTUAL")
 # base class for regression base learner configurations (classification, survival, etc to be added)
 setClass("Regression.Config", contains="BaseLearner.Config")
 
-make.configs <- function(baselearner=c("nnet","rf","svm","gbm","knn"), config.df, type="regression") {
+make.configs <- function(baselearner=c("nnet","rf","svm","gbm","knn","xgb"), config.df, type="regression") {
   if (type!="regression") stop("invalid type argument")
   
   if (length(baselearner)==1) {
@@ -40,8 +40,9 @@ setOldClass("kknn")
 setOldClass("nnet.formula")
 setOldClass("svm.formula")
 setOldClass("randomForest.formula")
+setOldClass("xgboost")
 # we then create a union of these estimation classes to form a common container (character is needed for filemethod=TRUE)
-setClassUnion("RegressionEstObj", c("character","gbm","kknn","nnet.formula","svm.formula","randomForest.formula"))
+setClassUnion("RegressionEstObj", c("character","gbm","kknn","nnet.formula","svm.formula","randomForest.formula","xgboost"))
 # add similar classes for classification, survival, etc
 
 # NULL is added for efficiency: when called within CV context, we don't need to retain pred pieces in each fold
